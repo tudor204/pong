@@ -57,12 +57,18 @@ class Pelota:
             self.vy *= -1
         
         if self.pos_x >= x_max+self.radio*5: #limite derecho
-            self.vx *= -1
             self.contadorIzquierdo +=1
+            self.pos_x=x_max//2
+            self.pos_y=y_max//2
+            self.vx *= 1
+            self.vy *= -1
 
         if self.pos_x < x_min-self.radio*5:#limite izquierdo
-            self.vx *= -1
             self.contadorDerecho +=1
+            self.pos_x=x_max//2
+            self.pos_y=y_max//2
+            self.vx *= -1
+            self.vy *= 1
     
     def mostrar_marcador(self,pantalla):
         fuente = pg.font.Font(None, 40)
@@ -87,4 +93,24 @@ class Pelota:
 
         
 
-    
+    def comprabar_choque(self,r1,r2):
+        #logica de choque
+        if self.derecha >= r2.izquierda and\
+            self.izquierda <= r2.derecha and\
+            self.abajo >= r2.arriba and\
+            self.arriba <= r2.abajo:
+            self.vx *= -1
+
+        if self.derecha >= r1.izquierda and\
+            self.izquierda <= r1.derecha and\
+            self.abajo >= r1.arriba and\
+            self.arriba <= r1.abajo:
+            self.vx *= -1
+
+    def comprabar_choqueV2(self,*raquetas):
+        for r in raquetas:
+            if self.derecha >= r.izquierda and\
+                self.izquierda <= r.derecha and\
+                self.abajo >= r.arriba and\
+                self.arriba <= r.abajo:
+                self.vx *= -1
