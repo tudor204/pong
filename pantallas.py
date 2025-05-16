@@ -1,0 +1,47 @@
+import pygame as pg
+from figura_class import Pelota,Raqueta
+
+ANCHO=800
+ALTO=600
+
+
+class Partida:
+    pg.init()
+    def __init__(self):
+        self.pantalla_principal=pg.display.set_mode((ANCHO,ALTO))
+        pg.display.set_caption("Pong")
+        self.tasa_refresco = pg.time.Clock()
+
+        self.pelota = Pelota(ANCHO//2,ALTO//2)
+        self.raqueta1 = Raqueta(ANCHO//2,ALTO//2)
+        self.raqueta2 = Raqueta(ANCHO//2,ALTO//2)
+
+    def bucle_fotograma(self):
+        game_over = False
+        while not game_over:
+            self.tasa_refresco = pg.time.Clock()
+        for eventos in pg.event.get():
+            if eventos.type == pg.QUIT:
+                 game_over = True
+
+        self.raqueta1.mover(pg.K_w,pg.K_s)
+        self.raqueta2.mover(pg.K_UP,pg.K_DOWN)
+        self.pelota.mover()
+
+        self.pantalla_principal.fill( (0,128,94 ) )
+        pg.draw.line(self.pantalla_principal,(255,255,255),(400,0),(400,600),10)
+    
+
+        self.pelota.dibujar(self.pantalla_principal)
+        self.raqueta1.dibujar(self.pantalla_principal)
+        self.raqueta2.dibujar(self.pantalla_principal)
+
+        self.pelota.comprabar_choque(self.raqueta1,self.raqueta2)
+
+        self.pelota.mostrar_marcador(self.pantalla_principal)
+
+    
+        pg.display.flip()
+        
+    pg.quit()
+

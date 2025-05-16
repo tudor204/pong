@@ -24,6 +24,21 @@ class Raqueta:
             self.pos_y +=3
 
 
+    @property
+    def derecha(self):
+        return self.pos_x + self.w//2
+    @property
+    def izquierda(self):
+        return self.pos_x - self.w//2
+    @property
+    def arriba(self):
+        return self.pos_y - self.h//2
+    @property
+    def abajo(self):
+        return self.pos_y + self.h//2
+
+
+
 class Pelota:
     def __init__(self,pos_x,pos_y,color=(255,255,255),radio=20,vx=1,vy=1):
         self.pos_x = pos_x
@@ -54,3 +69,68 @@ class Pelota:
         
 
     
+
+    def mover(self,x_max=800, y_max=600,x_min=0,y_min=0):
+        self.pos_x += self.vx
+        self.pos_y += self.vy
+        if (self.pos_y >= y_max-self.radio) or (self.pos_y < y_min+self.radio):
+            self.vy *= -1
+        
+        if self.pos_x >= x_max+self.radio*5: #limite derecho
+            self.contadorIzquierdo +=1
+            self.pos_x=x_max//2
+            self.pos_y=y_max//2
+            self.vx *= 1
+            self.vy *= -1
+
+        if self.pos_x < x_min-self.radio*5:#limite izquierdo
+            self.contadorDerecho +=1
+            self.pos_x=x_max//2
+            self.pos_y=y_max//2
+            self.vx *= -1
+            self.vy *= 1
+    
+    def mostrar_marcador(self,pantalla):
+        fuente = pg.font.Font(None, 40)
+        jug_1= fuente.render(str(self.contadorIzquierdo), 0,(255,255,255))
+        jug_2= fuente.render(str(self.contadorDerecho), 0,(255,255,255))
+        pantalla.blit(jug_1,(200,50))
+        pantalla.blit(jug_2,(600,50))
+    
+
+    @property
+    def derecha(self):
+        return self.pos_x + self.radio
+    @property
+    def izquierda(self):
+        return self.pos_x - self.radio
+    @property
+    def arriba(self):
+        return self.pos_y - self.radio
+    @property
+    def abajo(self):
+        return self.pos_y + self.radio
+
+        
+
+    def comprabar_choque(self,r1,r2):
+        #logica de choque
+        if self.derecha >= r2.izquierda and\
+            self.izquierda <= r2.derecha and\
+            self.abajo >= r2.arriba and\
+            self.arriba <= r2.abajo:
+            self.vx *= -1
+
+        if self.derecha >= r1.izquierda and\
+            self.izquierda <= r1.derecha and\
+            self.abajo >= r1.arriba and\
+            self.arriba <= r1.abajo:
+            self.vx *= -1
+
+    def comprabar_choqueV2(self,*raquetas):
+        for r in raquetas:
+            if self.derecha >= r.izquierda and\
+                self.izquierda <= r.derecha and\
+                self.abajo >= r.arriba and\
+                self.arriba <= r.abajo:
+                self.vx *= -1
