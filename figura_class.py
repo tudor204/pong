@@ -1,7 +1,7 @@
 import pygame as pg
 
 class Raqueta:
-    def __init__(self,pos_x,pos_y,w=20,h=120,color=(255,255,255),vx=1,vy=1):
+    def __init__(self,pos_x,pos_y,w=20,h=120,color=(232, 11, 6),vx=1,vy=1):
         self.pos_x = pos_x
         self.pos_y = pos_y
         self.w = w
@@ -40,7 +40,7 @@ class Raqueta:
 
 
 class Pelota:
-    def __init__(self,pos_x,pos_y,color=(255,255,255),radio=20,vx=1,vy=1):
+    def __init__(self,pos_x,pos_y,color=(232, 11, 6),radio=20,vx=2,vy=2):
         self.pos_x = pos_x
         self.pos_y = pos_y
         self.color = color
@@ -94,8 +94,10 @@ class Pelota:
         fuente = pg.font.Font(None, 40)
         jug_1= fuente.render(str(self.contadorIzquierdo), 0,(255,255,255))
         jug_2= fuente.render(str(self.contadorDerecho), 0,(255,255,255))
-        pantalla.blit(jug_1,(200,50))
-        pantalla.blit(jug_2,(600,50))
+        pantalla.blit(jug_1,(200,100))
+        pantalla.blit(jug_2,(600,100))
+
+    
     
 
     @property

@@ -4,7 +4,6 @@ from figura_class import Pelota,Raqueta
 ANCHO=800
 ALTO=600
 
-
 class Partida:
     pg.init()
     def __init__(self):
@@ -30,7 +29,13 @@ class Partida:
 
         self.pantalla_principal.fill( (0,128,94 ) )
         pg.draw.line(self.pantalla_principal,(255,255,255),(400,0),(400,600),10)
-    
+        pg.draw.line(self.pantalla_principal,(255,255,255),(0,0),(0,600),10)
+        pg.draw.line(self.pantalla_principal,(255,255,255),(800,0),(800,600),10)
+        self.pantalla_principal.blit(pg.font.SysFont("Arial", 36).render("Player 1", True, (255, 255, 255)), (50, 50))
+        self.pantalla_principal.blit(pg.font.SysFont("Arial", 36).render("Player 2", True, (255, 255, 255)), (450, 50)) 
+        pg.draw.circle (self.pantalla_principal,(255,255,255), (400,300),60, width=0)
+
+        
 
         self.pelota.dibujar(self.pantalla_principal)
         self.raqueta1.dibujar(self.pantalla_principal)
