@@ -1,8 +1,7 @@
 import pygame as pg
-from figura_class import Pelota,Raqueta
+from pongapp.figura_class import Pelota,Raqueta
+from .utils import *
 
-ANCHO=800
-ALTO=600
 
 class Partida:
     pg.init()

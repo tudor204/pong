@@ -1,7 +1,8 @@
 import pygame as pg
+from .utils import *
 
 class Raqueta:
-    def __init__(self,pos_x,pos_y,w=20,h=120,color=(232, 11, 6),vx=1,vy=1):
+    def __init__(self,pos_x,pos_y,w=20,h=120,color=ROJO,vx=1,vy=1):
         self.pos_x = pos_x
         self.pos_y = pos_y
         self.w = w
@@ -13,7 +14,7 @@ class Raqueta:
     def dibujar(self,pantalla):
         pg.draw.rect(pantalla,self.color,(self.pos_x-(self.w//2),self.pos_y-(self.h//2),self.w,self.h))
 
-    def mover(self,tecla_arriba, tecla_abajo,y_max=600,y_min=0):
+    def mover(self,tecla_arriba, tecla_abajo,y_max=Y_MAX,y_min=Y_MIN):
         
         estado_teclado = pg.key.get_pressed()
     
@@ -40,7 +41,7 @@ class Raqueta:
 
 
 class Pelota:
-    def __init__(self,pos_x,pos_y,color=(232, 11, 6),radio=20,vx=2,vy=2):
+    def __init__(self,pos_x,pos_y,color=ROJO,radio=20,vx=2,vy=2):
         self.pos_x = pos_x
         self.pos_y = pos_y
         self.color = color
@@ -53,24 +54,9 @@ class Pelota:
     def dibujar(self,pantalla):
         pg.draw.circle(pantalla,self.color,(self.pos_x,self.pos_y),self.radio)
 
-    def mover(self,x_max=800, y_max=600):
-        self.pos_x += self.vx
-        self.pos_y += self.vy
-        if self.pos_y >= y_max-self.radio or self.pos_y < 0+self.radio:
-            self.vy *= -1
-        
-        if self.pos_x >= x_max+self.radio*5: #limite derecho
-            self.vx *= -1
-            self.contadorIzquierdo +=1
+      
 
-        if self.pos_x < 0-self.radio*5:#limite izquierdo
-            self.vx *= -1
-            self.contadorDerecho +=1
-        
-
-    
-
-    def mover(self,x_max=800, y_max=600,x_min=0,y_min=0):
+    def mover(self,x_max=X_MAX, y_max=Y_MAX,x_min=X_MIN,y_min=Y_MIN):
         self.pos_x += self.vx
         self.pos_y += self.vy
         if (self.pos_y >= y_max-self.radio) or (self.pos_y < y_min+self.radio):
