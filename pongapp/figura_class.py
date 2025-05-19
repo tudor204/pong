@@ -41,16 +41,14 @@ class Raqueta:
 
 
 class Pelota:
-    def __init__(self,pos_x,pos_y,color=ROJO,radio=20,vx=2,vy=2):
+    def __init__(self,pos_x,pos_y,color=ROJO,radio=20,vx=1,vy=1):
         self.pos_x = pos_x
         self.pos_y = pos_y
         self.color = color
         self.radio = radio
         self.vx = vx 
         self.vy = vy
-        self.contadorDerecho=0
-        self.contadorIzquierdo=0
-    
+        
     def dibujar(self,pantalla):
         pg.draw.circle(pantalla,self.color,(self.pos_x,self.pos_y),self.radio)
 
@@ -63,26 +61,22 @@ class Pelota:
             self.vy *= -1
         
         if self.pos_x >= x_max+self.radio*5: #limite derecho
-            self.contadorIzquierdo +=1
+            #self.contadorIzquierdo +=1
             self.pos_x=x_max//2
             self.pos_y=y_max//2
             self.vx *= 1
             self.vy *= -1
+            return "left"
 
         if self.pos_x < x_min-self.radio*5:#limite izquierdo
-            self.contadorDerecho +=1
+            #self.contadorDerecho +=1
             self.pos_x=x_max//2
             self.pos_y=y_max//2
             self.vx *= -1
             self.vy *= 1
+            return "right"
     
-    def mostrar_marcador(self,pantalla):
-        fuente = pg.font.Font(None, 40)
-        jug_1= fuente.render(str(self.contadorIzquierdo), 0,(255,255,255))
-        jug_2= fuente.render(str(self.contadorDerecho), 0,(255,255,255))
-        pantalla.blit(jug_1,(200,100))
-        pantalla.blit(jug_2,(600,100))
-
+    
     
     
 
@@ -101,7 +95,7 @@ class Pelota:
 
         
 
-    def comprabar_choque(self,r1,r2):
+    def comprobar_choque(self,r1,r2):
         #logica de choque
         if self.derecha >= r2.izquierda and\
             self.izquierda <= r2.derecha and\
@@ -115,7 +109,7 @@ class Pelota:
             self.arriba <= r1.abajo:
             self.vx *= -1
 
-    def comprabar_choqueV2(self,*raquetas):
+    def comprobar_choqueV2(self,*raquetas):
         for r in raquetas:
             if self.derecha >= r.izquierda and\
                 self.izquierda <= r.derecha and\

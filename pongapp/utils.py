@@ -1,6 +1,7 @@
 ROJO = (232, 11, 6)
-X_MAX = 800
-Y_MAX = 600
+BLANCO = (255,255,255)
+X_MAX = 750
+Y_MAX = 550
 X_MIN = 0
 Y_MIN = 0
 

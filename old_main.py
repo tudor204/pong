@@ -1,6 +1,6 @@
 import pygame as pg 
 from pongapp.figura_class import Pelota,Raqueta
-from pongapp.pantallas import *
+#from pongapp.pantallas import *
 
 pg.init()
 
@@ -50,7 +50,7 @@ while not game_over:
     raqueta1.dibujar(pantalla_principal)
     raqueta2.dibujar(pantalla_principal)
 
-    pelota.comprabar_choque(raqueta1,raqueta2)
+    pelota.comprobar_choque(raqueta1,raqueta2)
 
     pelota.mostrar_marcador(pantalla_principal)
 
