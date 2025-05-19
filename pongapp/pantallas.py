@@ -34,9 +34,7 @@ class Partida:
             self.raqueta1.mover(pg.K_w,pg.K_s)
             self.raqueta2.mover(pg.K_UP,pg.K_DOWN)
             self.quienMarco = self.pelota.mover()
-
             
-
             self.pantalla_principal.fill( (0,128,94 ) )
                                   
             self.mostra_linea_central()
@@ -52,7 +50,7 @@ class Partida:
             
 
             self.pelota.comprobar_choque(self.raqueta1,self.raqueta2)
-            #self.pelota.mostrar_marcador(self.pantalla_principal)
+            self.mostrar_marcador()
 
             self.mostrar_jugador()
             pg.display.flip()
@@ -73,6 +71,11 @@ class Partida:
             con_linea +=70
 
     def mostrar_marcador(self):
+        if self.quienMarco == "right":
+                self.contadorDerecho += 1
+        elif self.quienMarco == "left":
+                self.contadorIzquierdo += 1
+
         jug_1= self.fuente.render(str(self.contadorIzquierdo), 0,(255,255,255))
         jug_2= self.fuente.render(str(self.contadorDerecho), 0,(255,255,255))
         self.pantalla_principal.blit(jug_1,(200,100))
