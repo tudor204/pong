@@ -21,36 +21,35 @@ class Partida:
         self.contadorDerecho=0
         self.contadorIzquierdo=0
         self.quienMarco = ""
-    
+        self.temporizador = TIEMPO
+        self. game_over = False
+        self.contadorFotograma =0 
+        self.colorFondo=COLOR_CANCHA
         
 
     def bucle_fotograma(self):
-        game_over = False
-        temporizador = 10000
-        while not game_over:
+       
+        
+        
+        #while not game_over and self.temporizador > 0 and self.contadorDerecho < 10 and self.contadorIzquierdo <10:
+        while not self.game_over:
             salto_tiempo = self.tasa_refresco.tick(300)
-            temporizador -= salto_tiempo
-            if temporizador <= 0:
-                 game_over = True
-            #print(temporizador)
-
-            if self.contadorDerecho == 4:
-                 game_over = True
-                 print("El ganador es el jugador 2")
-            if self.contadorIzquierdo == 7:
-                 game_over = True
-                 print("El ganador es el jugador 1")
-
+            self.fin_partida()
+            
+            self.temporizador -= salto_tiempo
+            
             for eventos in pg.event.get():
                 if eventos.type == pg.QUIT:
-                    game_over = True
+                    self.game_over = True
 
             self.raqueta1.mover(pg.K_w,pg.K_s)
             self.raqueta2.mover(pg.K_UP,pg.K_DOWN)
             self.quienMarco = self.pelota.mover()
-            
-            self.pantalla_principal.fill( (0,128,94 ) )
-                                  
+
+            color = self.fijar_fondo()
+            self.pantalla_principal.fill( color=color )
+                 
+                             
             self.mostra_linea_central()
            
             pg.draw.line(self.pantalla_principal,(255,255,255),(0,0),(0,600),10)
@@ -61,15 +60,20 @@ class Partida:
             self.pelota.dibujar(self.pantalla_principal)
             self.raqueta1.dibujar(self.pantalla_principal)
             self.raqueta2.dibujar(self.pantalla_principal)
+
+            
+                 
             
 
             self.pelota.comprobar_choque(self.raqueta1,self.raqueta2)
             self.mostrar_marcador()
-
+            self.mostrar_temporizador()
             self.mostrar_jugador()
             pg.display.flip()
         
         pg.quit()
+
+    
 
     def mostrar_jugador(self):
         jugador1 = self.fuente.render("Jugador 1",0,ROJO)
@@ -95,4 +99,77 @@ class Partida:
         self.pantalla_principal.blit(jug_1,(200,100))
         self.pantalla_principal.blit(jug_2,(600,100))
 
+    def mostrar_temporizador(self):
+         tiempo_juego=self.fuente.render(str(self.temporizador//1000),0,ROJO)
+         self.pantalla_principal.blit(tiempo_juego,(385,100))
 
+    def fin_partida(self):
+         
+        if self.temporizador <= 0:
+                self.game_over = True
+       
+        if self.contadorDerecho == 10:
+                self.game_over = True
+                print("El ganador es el jugador 2")
+        if self.contadorIzquierdo == 10:
+                self.game_over = True
+                print("El ganador es el jugador 1")
+
+    def fijar_fondo(self):
+
+        self.contadorFotograma += 1
+
+        if self.temporizador > 10000:
+             self.contadorFotograma = 0
+        elif self.temporizador > 5000:
+            if self.contadorFotograma == 60:
+                if self.colorFondo == COLOR_CANCHA:
+                     self.colorFondo = NARANJA
+                else:
+                    self.colorFondo = COLOR_CANCHA
+                self.contadorFotograma=0
+        else:
+             if self.contadorFotograma == 50:
+                if self.colorFondo == NARANJA:
+                     self.colorFondo = ROJO_CLARO
+                else:
+                    self.colorFondo = NARANJA
+                self.contadorFotograma=0   
+        
+
+        return self.colorFondo
+            
+
+class Menu:
+    pg.init()
+    def __init__(self):
+        self.pantalla_principal=pg.display.set_mode((ANCHO,ALTO))
+        pg.display.set_caption("Menu")
+        self.tasa_refresco=pg.time.Clock()
+        self.imagenFondo = pg.image.load("pongapp/images/fondo.png")
+        self.fuenteMenu = pg.font.Font(FUENTE1,20)
+
+    def bucle_pantalla(self):
+        game_over=False
+        while not game_over:
+            for evento in pg.event.get():
+                if evento.type == pg.QUIT:
+                    game_over = True
+
+            self.pantalla_principal.blit(self.imagenFondo,(0,0))
+            menu = self.fuenteMenu.render("Pulsa ENTER para jugar",0, ROJO)
+            self.pantalla_principal.blit(menu,(155,ALTO//2))
+
+            pg.display.flip()
+        pg.quit()
+
+
+
+
+
+    
+
+    
+
+
+        
