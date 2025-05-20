@@ -3,7 +3,6 @@ from pongapp.figura_class import Pelota,Raqueta
 from .utils import *
 
 
-
 class Partida:
     pg.init()
     def __init__(self):
@@ -16,21 +15,6 @@ class Partida:
         self.raqueta1 = Raqueta(10,ALTO//2)
         self.raqueta2 = Raqueta(ANCHO-10,ALTO//2)
         
-        self.fuente = pg.font.Font(None,40)
-        self.contadorDerecho=0
-        self.contadorIzquierdo=0
-        self.quienMarco= ""
-    
-        
-
-    def bucle_fotograma(self):
-        game_over = False
-        while not game_over:
-            self.tasa_refresco.tick(300)
-
-            for eventos in pg.event.get():
-                if eventos.type == pg.QUIT:
-                    game_over = True
         self.fuente = pg.font.Font(FUENTE1,40)
         
         self.contadorDerecho=0
@@ -43,7 +27,8 @@ class Partida:
         
 
     def bucle_fotograma(self):
-           
+       
+        
         
         #while not game_over and self.temporizador > 0 and self.contadorDerecho < 10 and self.contadorIzquierdo <10:
         while not self.game_over:
@@ -59,9 +44,6 @@ class Partida:
             self.raqueta1.mover(pg.K_w,pg.K_s)
             self.raqueta2.mover(pg.K_UP,pg.K_DOWN)
             self.quienMarco = self.pelota.mover()
-            
-            self.pantalla_principal.fill( (0,128,94 ) )
-                                  
 
             color = self.fijar_fondo()
             self.pantalla_principal.fill( color=color )
@@ -84,7 +66,6 @@ class Partida:
 
             self.pelota.comprobar_choque(self.raqueta1,self.raqueta2)
             self.mostrar_marcador()
-
             self.mostrar_temporizador()
             self.mostrar_jugador()
             pg.display.flip()
@@ -116,11 +97,20 @@ class Partida:
         jug_2= self.fuente.render(str(self.contadorDerecho), 0,(255,255,255))
         self.pantalla_principal.blit(jug_1,(200,100))
         self.pantalla_principal.blit(jug_2,(600,100))
-
+       
 
     def mostrar_temporizador(self):
-         tiempo_juego=self.fuente.render(str(self.temporizador//1000),0,ROJO)
-         self.pantalla_principal.blit(tiempo_juego,(385,100))
+        tiempo_juego=self.fuente.render(str(self.temporizador//1000),0,ROJO)
+        rect_tiempo = tiempo_juego.get_rect(center=(400, 100))
+        padding = 10  # Puedes cambiar este valor para más espacio
+        rect_tiempo.inflate_ip(padding * 2, padding * 2)  # Aumenta ancho y alto
+        # Dibujar el fondo con esquinas redondeadas
+        pg.draw.rect(self.pantalla_principal, (0, 0, 0), rect_tiempo, border_radius=10)
+        # Dibujar el borde blanco con las mismas esquinas redondeadas
+        pg.draw.rect(self.pantalla_principal, (255, 255, 255), rect_tiempo, width=2, border_radius=10)
+        # Dibujar el texto (usando el rect original sin padding)
+        texto_rect = tiempo_juego.get_rect(center=(400, 100))
+        self.pantalla_principal.blit(tiempo_juego, texto_rect)
 
     def fin_partida(self):
          
@@ -165,8 +155,8 @@ class Menu:
         self.pantalla_principal=pg.display.set_mode((ANCHO,ALTO))
         pg.display.set_caption("Menu")
         self.tasa_refresco=pg.time.Clock()
-        self.imagenFondo = pg.image.load("pongapp/images/fondo.png")
-        self.fuenteMenu = pg.font.Font(FUENTE1,20)
+        self.imagenFondo = pg.image.load(FONDO1)
+        self.fuenteMenu = pg.font.Font(FUENTEMENU,20)
 
     def bucle_pantalla(self):
         game_over=False
@@ -177,7 +167,7 @@ class Menu:
 
             self.pantalla_principal.blit(self.imagenFondo,(0,0))
             menu = self.fuenteMenu.render("Pulsa ENTER para jugar",0, ROJO)
-            self.pantalla_principal.blit(menu,(155,ALTO//2))
+            self.pantalla_principal.blit(menu,(230,ALTO//2))
 
             pg.display.flip()
         pg.quit()
