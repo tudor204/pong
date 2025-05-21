@@ -14,7 +14,7 @@ ANCHO=800
 ALTO=600
 FUENTEMENU = "pongapp/fonts/fuenteMenu.ttf"
 FUENTE1 = "pongapp/fonts/fuente.ttf"
-TIEMPO = 60000
+TIEMPO = 15000
 
 FONDO1= "pongapp/images/fondo_pong.jpg"
 
