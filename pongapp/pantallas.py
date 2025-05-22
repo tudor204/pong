@@ -23,7 +23,8 @@ class Partida:
         self.temporizador = TIEMPO
         self. game_over = False
         self.contadorFotograma =0 
-        self.colorFondo=COLOR_CANCHA  
+        self.colorFondo=COLOR_CANCHA 
+        
 
     def bucle_pantalla(self):
         
@@ -62,6 +63,7 @@ class Partida:
             
 
             self.pelota.comprobar_choque(self.raqueta1,self.raqueta2)
+            
             self.mostrar_marcador()
             self.mostrar_temporizador()
             self.mostrar_jugador()
@@ -154,22 +156,29 @@ class Menu:
         self.tasa_refresco=pg.time.Clock()
         self.imagenFondo = pg.image.load(FONDO1)
         self.fuenteMenu = pg.font.Font(FUENTEMENU,20)
+        self.sonido = pg.mixer.Sound(SONIDO_MENU)
+
 
     def bucle_pantalla(self):
         game_over=False
         self.tasa_refresco.tick(FTS)
+        pg.mixer.Sound.play(self.sonido)# iniciamos el sonido
+
         while not game_over:
             for evento in pg.event.get():
                 if evento.type == pg.QUIT:
                     return None
-
+                
             boton = pg.key.get_pressed()
 
             if boton[pg.K_r]== True:
                 game_over = True
+                pg.mixer.Sound.stop(self.sonido)
                 return "records"
+            
             if boton[pg.K_RETURN]== True:
                 game_over = True
+                pg.mixer.Sound.stop(self.sonido)
                 return "partida"
 
             self.pantalla_principal.blit(self.imagenFondo,(0,0))
@@ -190,14 +199,18 @@ class Resultado:
         self.tasa_refresco = pg.time.Clock()
         self.fuenteResultado = pg.font.Font(FUENTEMENU,10)
         self.resultado_final = ""
+        self.sonido = self.sonido = pg.mixer.Sound(SONIDO_PUNTUACIONES)
 
     def bucle_pantalla(self):
         game_over = False
         self.tasa_refresco.tick(FTS)
+        pg.mixer.Sound.play(self.sonido)
         while not game_over:
             for evento in pg.event.get():
                 if evento.type == pg.QUIT:
                     game_over = True
+                    pg.mixer.Sound.stop(self.sonido)
+
             #if evento.type == pg.KEYDOWN:
             #    game_over = True
 

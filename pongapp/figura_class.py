@@ -48,6 +48,7 @@ class Pelota:
         self.radio = radio
         self.vx = vx 
         self.vy = vy
+        self.sonido = pg.mixer.Sound(SONIDO_PARTIDA) 
         
     def dibujar(self,pantalla):
         pg.draw.circle(pantalla,self.color,(self.pos_x,self.pos_y),self.radio)
@@ -77,8 +78,6 @@ class Pelota:
             return "right"
     
     
-    
-    
 
     @property
     def derecha(self):
@@ -96,18 +95,24 @@ class Pelota:
         
 
     def comprobar_choque(self,r1,r2):
-        #logica de choque
+        
         if self.derecha >= r2.izquierda and\
             self.izquierda <= r2.derecha and\
             self.abajo >= r2.arriba and\
             self.arriba <= r2.abajo:
             self.vx *= -1
+            #sonido pelota
+            pg.mixer.Sound.play(self.sonido)
+            
+
 
         if self.derecha >= r1.izquierda and\
             self.izquierda <= r1.derecha and\
             self.abajo >= r1.arriba and\
             self.arriba <= r1.abajo:
             self.vx *= -1
+            #sonido pelota
+            pg.mixer.Sound.play(self.sonido)
 
     def comprobar_choqueV2(self,*raquetas):
         for r in raquetas:

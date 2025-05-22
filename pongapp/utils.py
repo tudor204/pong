@@ -15,6 +15,9 @@ ALTO=600
 
 FUENTEMENU = "pongapp/fonts/fuenteMenu.ttf"
 FUENTE1 = "pongapp/fonts/fuente.ttf"
+SONIDO_MENU = "pongapp/songs/sonido_menu.mp3"
+SONIDO_PARTIDA = "pongapp/songs/raqueta.mp3"
+SONIDO_PUNTUACIONES = "pongapp/songs/sonido_puntuaciones.mp3"
 
 FONDO1= "pongapp/images/fondo_pong.jpg"
 TIEMPO = 15000
