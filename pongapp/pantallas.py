@@ -13,7 +13,9 @@ class Partida:
 
         self.pelota = Pelota(ANCHO//2,ALTO//2)
         self.raqueta1 = Raqueta(10,ALTO//2)
-        self.raqueta2 = Raqueta(ANCHO-10,ALTO//2)
+        self.raqueta1.cambiarImagen("izqda")
+        self.raqueta2 = Raqueta(ANCHO-20,ALTO//2)
+        self.raqueta2.cambiarImagen("drcha")
         
         self.fuente = pg.font.Font(FUENTE1,40)
         
@@ -27,12 +29,11 @@ class Partida:
         
 
     def bucle_pantalla(self):
-        
+        self.temporizador = TIEMPO        
         #while not game_over and self.temporizador > 0 and self.contadorDerecho < 10 and self.contadorIzquierdo <10:
         while not self.game_over:
             salto_tiempo = self.tasa_refresco.tick(FTS)
             self.fin_partida()
-            
             self.temporizador -= salto_tiempo
             
             for eventos in pg.event.get():
@@ -146,7 +147,7 @@ class Partida:
                 self.contadorFotograma=0   
 
         return self.colorFondo 
-            
+          
 
 class Menu:
     
@@ -160,6 +161,7 @@ class Menu:
 
 
     def bucle_pantalla(self):
+        self.pantalla_principal=pg.display.set_mode((ANCHO,ALTO))
         game_over=False
         self.tasa_refresco.tick(FTS)
         pg.mixer.Sound.play(self.sonido)# iniciamos el sonido
@@ -188,8 +190,7 @@ class Menu:
             self.pantalla_principal.blit(jugar,(200,ALTO//2))
             self.pantalla_principal.blit(records,(160,ALTO//2+40))
 
-            pg.display.flip()
-    
+            pg.display.flip()   
 
 class Resultado:
     def __init__(self):

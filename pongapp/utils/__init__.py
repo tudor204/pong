@@ -1,3 +1,7 @@
+import pygame as pg
+
+pg.init()
+
 ROJO = (232, 11, 6)
 BLANCO = (255,255,255)
 NARANJA= (255,128,0)
@@ -10,8 +14,7 @@ X_MIN = 0
 Y_MIN = 0
 ANCHO=800
 ALTO=600
-ANCHO=800
-ALTO=600
+
 
 FUENTEMENU = "pongapp/fonts/fuenteMenu.ttf"
 FUENTE1 = "pongapp/fonts/fuente.ttf"
