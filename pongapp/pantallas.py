@@ -13,9 +13,9 @@ class Partida:
 
         self.pelota = Pelota(ANCHO//2,ALTO//2)
         self.raqueta1 = Raqueta(10,ALTO//2)
-        self.raqueta1.cambiarImagen("izqda")
+        self.raqueta1.direccion = "izqda"
         self.raqueta2 = Raqueta(ANCHO-20,ALTO//2)
-        self.raqueta2.cambiarImagen("drcha")
+        self.raqueta2.direccion = "drcha"
         
         self.fuente = pg.font.Font(FUENTE1,40)
         
@@ -146,8 +146,7 @@ class Partida:
                     self.colorFondo = NARANJA
                 self.contadorFotograma=0   
 
-        return self.colorFondo 
-          
+        return self.colorFondo          
 
 class Menu:
     
@@ -215,7 +214,7 @@ class Resultado:
             #if evento.type == pg.KEYDOWN:
             #    game_over = True
 
-            self.pantalla_principal.fill(BLANCO)
+            self.pantalla_principal.fill(NEGRO)
             resultado = self.fuenteResultado.render(self.resultado_final,0,ROJO)
 
             self.pantalla_principal.blit(resultado,(120,ALTO//2))
@@ -242,7 +241,7 @@ class Records:
                 if evento.type == pg.QUIT:
                     game_over = True
 
-            self.pantalla_principal.fill(BLANCO)
+            self.pantalla_principal.fill(NEGRO)
             texto = self.fuenteRecords.render("Mejores puntuaciones",0, ROJO)
                  
             self.pantalla_principal.blit(texto,(230,ALTO//2))

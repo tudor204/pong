@@ -1,7 +1,7 @@
 import pygame as pg
 
 pg.init()
-
+NEGRO = (0,0,0)
 ROJO = (232, 11, 6)
 BLANCO = (255,255,255)
 NARANJA= (255,128,0)

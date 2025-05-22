@@ -10,21 +10,42 @@ class Raqueta:
         self.color = color
         self.vx = vx 
         self.vy = vy
-        self.imagenes = {
-            "drcha":"pongapp/images/electric00_drcha.png",
-            "izqda":"pongapp/images/electric00_izqda.png"
+        self.file_imagenes = {
+            "drcha":["electric00_drcha.png","electric01_drcha.png","electric02_drcha.png"],
+            "izqda":["electric00_izqda.png","electric01_izqda.png","electric02_izqda.png"],
         }
-        self.raqueta = None
+        self.imagenes = self.cargar_imagenes()
+        self._direccion = ""
+        self.imagen_activa = 0
 
-    def cambiarImagen(self,lado):
-        self.raqueta = pg.image.load(self.imagenes[lado])
+    def cargar_imagenes(self):
+        imagenprueba={}
+        for lado in self.file_imagenes:
+            imagenprueba[lado]=[]
+            for nombre_fichero in self.file_imagenes[lado]:
+                imagen = pg.image.load(f"pongapp/images/{nombre_fichero}")
+                imagenprueba[lado].append(imagen)
+        return imagenprueba 
+    
+    @property
+    def direccion(self):
+        return self._direccion
+
+    @direccion.setter
+    def direccion(self,valor):
+        self._direccion=valor
+
     
     def dibujar(self,pantalla):
         #pg.draw.rect(pantalla,self.color,(self.pos_x-(self.w//2),self.pos_y-(self.h//2),self.w,self.h))
-        pantalla.blit(self.raqueta,(self.pos_x-(self.w//2),self.pos_y-(self.h//2),self.w,self.h))
+        #pantalla.blit(self.raqueta,(self.pos_x-(self.w//2),self.pos_y-(self.h//2),self.w,self.h))
+        pantalla.blit(self.imagenes[self.direccion][self.imagen_activa],(self.pos_x-(self.w//2),self.pos_y-(self.h//2),self.w,self.h))
+        self.imagen_activa +=1
+        if self.imagen_activa >= len(self.imagenes[self.direccion]):
+            self.imagen_activa = 0
 
-    def mover(self,tecla_arriba, tecla_abajo,y_max=Y_MAX,y_min=Y_MIN):
-        
+
+    def mover(self,tecla_arriba,tecla_abajo,y_max=Y_MAX,y_min=Y_MIN):    
         estado_teclado = pg.key.get_pressed()
     
         if estado_teclado[tecla_arriba] == True and self.pos_y > y_min +(self.h/2):
@@ -61,8 +82,8 @@ class Pelota:
         self.pelota = pg.image.load("pongapp/images/pelota.png")
         
     def dibujar(self,pantalla):
-        pg.draw.circle(pantalla,self.color,(self.pos_x,self.pos_y),self.radio)
-        #pantalla.blit(self.pelota,(self.pos_x,self.pos_y,self.radio//3,self.radio//3))
+        #pg.draw.circle(pantalla,self.color,(self.pos_x,self.pos_y),self.radio)
+        pantalla.blit(self.pelota,(self.pos_x,self.pos_y,self.radio//3,self.radio//3))
 
       
 
